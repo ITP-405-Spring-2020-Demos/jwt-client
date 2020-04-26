@@ -17,22 +17,22 @@ export default class LoginController extends Controller {
 
     this.error = null;
 
-    try {
-      const response = await fetch(`${API_ENDPOINT}/api/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: this.username,
-          password: this.password
-        })
-      });
+    const response = await fetch(`${API_ENDPOINT}/api/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: this.username,
+        password: this.password
+      })
+    });
 
+    if (response.ok) {
       const json = await response.json();
       localStorage.token = json.token;
       this.transitionToRoute('playlists');
-    } catch(error) {
+    } else {
       this.error = 'Invalid Credentials';
     }
   }

@@ -1,2 +1,19 @@
 <h1>Login</h1>
-{{outlet}}
+
+<div>
+  {{this.error}}
+</div>
+
+<form method="POST" {{on "submit" this.login}}>
+  <div>
+    <label for="username">Username</label>
+    <Input type="text" id="username" @value={{this.username}} />
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <Input type="password" id="password" @value={{this.password}} />
+  </div>
+  <button type="submit">
+    Login
+  </button>
+</form>

@@ -1,3 +1,9 @@
+{{#if this.session.currentUser}}
+  <span>
+    Logged in as {{this.session.currentUser.name}}
+  </span>
+{{/if}}
+
 <ul>
   <li>
     <LinkTo @route="login">Login</LinkTo>

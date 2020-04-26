@@ -1,15 +1,14 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { fetch } from 'fetch';
-import config from 'jwt-client-ember/config/environment';
-
-const { API_ENDPOINT } = config.APP;
+import { inject as service } from '@ember/service';
 
 export default class LoginController extends Controller {
   @tracked username = 'dtang';
   @tracked password = 'password';
   @tracked error;
+
+  @service session;
 
   @action
   async login(event) {
@@ -17,22 +16,10 @@ export default class LoginController extends Controller {
 
     this.error = null;
 
-    const response = await fetch(`${API_ENDPOINT}/api/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: this.username,
-        password: this.password
-      })
-    });
-
-    if (response.ok) {
-      const json = await response.json();
-      localStorage.token = json.token;
+    try {
+      await this.session.authenticate(this.username, this.password);
       this.transitionToRoute('playlists');
-    } else {
+    } catch(error) {
       this.error = 'Invalid Credentials';
     }
   }

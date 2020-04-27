@@ -8,7 +8,7 @@ export default class PlaylistsRoute extends Route {
   async model() {
     let response = await fetch(`${API_ENDPOINT}/api/playlists`, {
       headers: {
-        'Authorization': `Bearer ${localStorage.token}`
+        'Authorization': `Bearer ${sessionStorage.token}`
       }
     });
 

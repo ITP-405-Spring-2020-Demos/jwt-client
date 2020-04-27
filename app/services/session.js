@@ -10,20 +10,20 @@ export default class SessionService extends Service {
 
   constructor() {
     super(...arguments);
-    if (localStorage.token) {
+    if (sessionStorage.token) {
       this.initializeCurrentUser();
     }
   }
 
   initializeCurrentUser() {
-    let [header, payload, signature] = localStorage.token.split('.');
+    let [header, payload, signature] = sessionStorage.token.split('.');
     let decodedPayload = window.atob(payload);
     this.currentUser = JSON.parse(decodedPayload);
   }
 
   invalidate() {
     this.currentUser = null;
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
   }
 
   async authenticate(username, password) {
@@ -40,7 +40,7 @@ export default class SessionService extends Service {
 
     if (response.ok) {
       const json = await response.json();
-      localStorage.token = json.token;
+      sessionStorage.token = json.token;
       this.initializeCurrentUser();
     } else {
       throw new Error('Invalid credentials');

@@ -1,6 +1,12 @@
 <ul>
   <li>
-    <LinkTo @route="login">Login</LinkTo>
+    {{#if this.session.currentUser}}
+      <span>
+        Logged in as {{this.session.currentUser.name}}
+      </span>
+    {{else}}
+      <LinkTo @route="login">Login</LinkTo>
+    {{/if}}
   </li>
   <li>
     <LinkTo @route="playlists">Playlists</LinkTo>

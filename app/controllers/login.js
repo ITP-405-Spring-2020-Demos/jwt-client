@@ -30,7 +30,7 @@ export default class LoginController extends Controller {
 
     if (response.ok) {
       const json = await response.json();
-      localStorage.token = json.token;
+      sessionStorage.token = json.token;
       this.transitionToRoute('playlists');
     } else {
       this.error = 'Invalid Credentials';

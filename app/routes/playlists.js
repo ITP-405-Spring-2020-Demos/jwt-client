@@ -6,7 +6,16 @@ const { API_ENDPOINT } = config.APP;
 
 export default class PlaylistsRoute extends Route {
   async model() {
-    let response = await fetch(`${API_ENDPOINT}/api/playlists`);
-    return response.json();
+    let response = await fetch(`${API_ENDPOINT}/api/playlists`, {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.token}`
+      }
+    });
+
+    if (response.status === 401) {
+      this.transitionTo('login')
+    } else {
+      return response.json();
+    }
   }
 }
